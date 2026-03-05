@@ -306,6 +306,12 @@ export const mr: LanguageTranslation = {
             redo: 'पुन्हा करा',
             reorder_diagram: 'आरेख स्वयंचलित व्यवस्थित करा',
             // TODO: Translate
+            layout_auto: 'Auto Arrange',
+            layout_grid: 'Grid',
+            layout_tree_vertical: 'Tree (Top-Down)',
+            layout_tree_horizontal: 'Tree (Left-Right)',
+            layout_force: 'Force-Directed',
+            layout_circular: 'Circular',
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
             custom_type_highlight_tooltip:
                 'Highlighting "{{typeName}}" - Click to clear',

@@ -303,6 +303,12 @@ export const hi: LanguageTranslation = {
             redo: 'पुनः करें',
             reorder_diagram: 'आरेख स्वचालित व्यवस्थित करें',
             // TODO: Translate
+            layout_auto: 'Auto Arrange',
+            layout_grid: 'Grid',
+            layout_tree_vertical: 'Tree (Top-Down)',
+            layout_tree_horizontal: 'Tree (Left-Right)',
+            layout_force: 'Force-Directed',
+            layout_circular: 'Circular',
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
             custom_type_highlight_tooltip:
                 'Highlighting "{{typeName}}" - Click to clear',

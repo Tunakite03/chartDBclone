@@ -303,6 +303,13 @@ export const de: LanguageTranslation = {
             undo: 'Rückgängig',
             redo: 'Wiederholen',
             reorder_diagram: 'Diagramm automatisch anordnen',
+            // TODO: Translate
+            layout_auto: 'Automatisch anordnen',
+            layout_grid: 'Raster',
+            layout_tree_vertical: 'Baum (Top-Down)',
+            layout_tree_horizontal: 'Baum (Links-Rechts)',
+            layout_force: 'Kraftgerichtet',
+            layout_circular: 'Kreisförmig',
 
             // TODO: Translate
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',

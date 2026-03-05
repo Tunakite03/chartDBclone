@@ -298,6 +298,12 @@ export const zh_TW: LanguageTranslation = {
             redo: '重做',
             reorder_diagram: '自動排列圖表',
             // TODO: Translate
+            layout_auto: 'Auto Arrange',
+            layout_grid: 'Grid',
+            layout_tree_vertical: 'Tree (Top-Down)',
+            layout_tree_horizontal: 'Tree (Left-Right)',
+            layout_force: 'Force-Directed',
+            layout_circular: 'Circular',
             clear_custom_type_highlight: 'Clear highlight for "{{typeName}}"',
             custom_type_highlight_tooltip:
                 'Highlighting "{{typeName}}" - Click to clear',

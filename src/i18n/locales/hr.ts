@@ -298,6 +298,13 @@ export const hr: LanguageTranslation = {
             undo: 'Poništi',
             redo: 'Ponovi',
             reorder_diagram: 'Automatski preuredi dijagram',
+            // TODO: Translate
+            layout_auto: 'Auto Arrange',
+            layout_grid: 'Grid',
+            layout_tree_vertical: 'Tree (Top-Down)',
+            layout_tree_horizontal: 'Tree (Left-Right)',
+            layout_force: 'Force-Directed',
+            layout_circular: 'Circular',
             highlight_overlapping_tables: 'Istakni preklapajuće tablice',
             clear_custom_type_highlight: 'Ukloni isticanje za "{{typeName}}"',
             custom_type_highlight_tooltip:

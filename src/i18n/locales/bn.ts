@@ -302,6 +302,13 @@ export const bn: LanguageTranslation = {
             undo: 'পূর্বাবস্থায় ফিরুন',
             redo: 'পুনরায় করুন',
             reorder_diagram: 'স্বয়ংক্রিয় ডায়াগ্রাম সাজান',
+            // TODO: Translate
+            layout_auto: 'Auto Arrange',
+            layout_grid: 'Grid',
+            layout_tree_vertical: 'Tree (Top-Down)',
+            layout_tree_horizontal: 'Tree (Left-Right)',
+            layout_force: 'Force-Directed',
+            layout_circular: 'Circular',
             highlight_overlapping_tables: 'ওভারল্যাপিং টেবিল হাইলাইট করুন',
 
             // TODO: Translate
