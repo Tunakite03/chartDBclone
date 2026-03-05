@@ -3,6 +3,7 @@ import { emptyFn } from '@/lib/utils';
 import type { Graph } from '@/lib/graph';
 import { createGraph } from '@/lib/graph';
 import { EventEmitter } from 'ahooks/lib/useEventEmitter';
+import type { LayoutType } from '@/lib/layout-engine';
 
 export type CanvasEventType = 'pan_click';
 
@@ -23,6 +24,10 @@ export type CanvasEvent = PanClickEvent;
 
 export interface CanvasContext {
     reorderTables: (options?: { updateHistory?: boolean }) => void;
+    reorderTablesWithLayout: (
+        layoutType: LayoutType,
+        options?: { updateHistory?: boolean }
+    ) => void;
     fitView: (options?: {
         duration?: number;
         padding?: number;
@@ -72,6 +77,7 @@ export interface CanvasContext {
 
 export const canvasContext = createContext<CanvasContext>({
     reorderTables: emptyFn,
+    reorderTablesWithLayout: emptyFn,
     fitView: emptyFn,
     setOverlapGraph: emptyFn,
     overlapGraph: createGraph(),

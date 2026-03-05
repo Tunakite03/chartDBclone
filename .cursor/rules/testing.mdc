@@ -1,0 +1,19 @@
+---
+description: Testing conventions and requirements
+globs: "**/*.{test,spec}.{ts,tsx,js,jsx,py}"
+alwaysApply: false
+---
+# Testing Rules
+
+## When to Write Tests
+- Every new feature must have tests.
+- Every bug fix needs a regression test.
+- Edge cases: null, empty, boundary values, error states.
+
+## How to Write Tests
+- Arrange-Act-Assert pattern.
+- Descriptive names: should <expected> when <condition>.
+- Deterministic: mock time, random, network, file system.
+- Table-driven tests for similar scenarios.
+- Mock at boundaries, not internals.
+- Each test independent, no shared mutable state.

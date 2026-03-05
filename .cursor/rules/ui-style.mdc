@@ -1,0 +1,29 @@
+---
+description: Tailwind + shadcn/ui style guide
+globs: "**/*.{tsx,jsx,css}"
+alwaysApply: true
+---
+# UI Style Guide (Tailwind + shadcn/ui)
+
+## Theme
+- Dark mode: class-based (`dark` class on html/body).
+- Use semantic tokens ONLY: background/foreground, primary/primary-foreground,
+  secondary/secondary-foreground, muted/muted-foreground, accent/accent-foreground,
+  destructive/destructive-foreground, border/ring, card/card-foreground, popover/popover-foreground.
+
+## Colors
+- Do NOT hardcode hex/rgb colors. Use Tailwind semantic classes:
+  bg-background, text-foreground, bg-primary, text-primary-foreground, bg-muted,
+  text-muted-foreground, border-border, ring-ring.
+- Do NOT invent new colors or override theme variables.
+
+## Radius
+- rounded-lg for cards/modals/buttons, rounded-md for inputs, rounded-sm for chips.
+
+## Spacing
+- Page: px-4 md:px-6. Cards: p-4 (default), p-6 (large).
+- Use gap-2/gap-3/gap-4 consistently. Sections: space-y-4 or space-y-6.
+
+## Components
+- Prefer shadcn/ui first. Do NOT build custom alternatives.
+- Use shadcn variants, do NOT change defaults unless asked.

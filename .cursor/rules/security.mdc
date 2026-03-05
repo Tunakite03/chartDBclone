@@ -1,0 +1,13 @@
+---
+description: Security rules
+globs: 
+alwaysApply: true
+---
+# Security
+
+- NEVER hardcode secrets, API keys, or passwords.
+- NEVER log credentials, tokens, or PII.
+- Validate and sanitize ALL user inputs.
+- Parameterized queries only (no string concatenation for SQL).
+- Validate file paths to prevent traversal attacks.
+- Use HTTPS, set security headers (CSP, HSTS, nosniff).

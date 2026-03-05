@@ -1,1 +1,1 @@
-export type ImportMethod = 'query' | 'ddl' | 'dbml';
+export type ImportMethod = 'query' | 'ddl' | 'dbml' | 'prisma';

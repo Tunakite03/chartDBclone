@@ -43,6 +43,7 @@ import {
 } from '@/lib/data/sql-import/sql-validator';
 import { SQLValidationStatus } from './sql-validation-status';
 import { setupDBMLLanguage } from '@/components/code-snippet/languages/dbml-language';
+import { setupPrismaLanguage } from '@/components/code-snippet/languages/prisma-language';
 import type { ImportMethod } from '@/lib/import-method/import-method';
 import { detectImportMethod } from '@/lib/import-method/detect-import-method';
 import { verifyDBML } from '@/lib/dbml/dbml-import/verify-dbml';
@@ -125,7 +126,7 @@ export const ImportDatabase: React.FC<ImportDatabaseProps> = ({
     // Check if the ddl or dbml is valid
     useEffect(() => {
         clearDecorations();
-        if (importMethod === 'query') {
+        if (importMethod === 'query' || importMethod === 'prisma') {
             setSqlValidation(null);
             setShowAutoFixButton(false);
             return;
@@ -430,7 +431,9 @@ export const ImportDatabase: React.FC<ImportDatabaseProps> = ({
                         ? 'Smart Query Output'
                         : importMethod === 'dbml'
                           ? 'DBML Script'
-                          : 'SQL Script'}
+                          : importMethod === 'prisma'
+                            ? 'Prisma Schema'
+                            : 'SQL Script'}
                 </div>
                 <div className="flex-1 overflow-hidden">
                     <Suspense fallback={<Spinner />}>
@@ -442,15 +445,24 @@ export const ImportDatabase: React.FC<ImportDatabaseProps> = ({
                                     ? 'json'
                                     : importMethod === 'dbml'
                                       ? 'dbml'
-                                      : 'sql'
+                                      : importMethod === 'prisma'
+                                        ? 'prisma'
+                                        : 'sql'
                             }
                             loading={<Spinner />}
                             onMount={handleEditorDidMount}
-                            beforeMount={setupDBMLLanguage}
+                            beforeMount={(monaco) => {
+                                setupDBMLLanguage(monaco);
+                                setupPrismaLanguage(monaco);
+                            }}
                             theme={
-                                effectiveTheme === 'dark'
-                                    ? 'dbml-dark'
-                                    : 'dbml-light'
+                                importMethod === 'prisma'
+                                    ? effectiveTheme === 'dark'
+                                        ? 'prisma-dark'
+                                        : 'prisma-light'
+                                    : effectiveTheme === 'dark'
+                                      ? 'dbml-dark'
+                                      : 'dbml-light'
                             }
                             options={{
                                 formatOnPaste: false, // Never format on paste - we handle it manually

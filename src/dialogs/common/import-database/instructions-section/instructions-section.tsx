@@ -19,6 +19,7 @@ import { Code, FileCode } from 'lucide-react';
 import { SmartQueryInstructions } from './instructions/smart-query-instructions';
 import { DDLInstructions } from './instructions/ddl-instructions';
 import { DBMLInstructions } from './instructions/dbml-instructions';
+import { PrismaInstructions } from './instructions/prisma-instructions';
 import type { ImportMethod } from '@/lib/import-method/import-method';
 
 const DatabasesWithoutDDLInstructions: DatabaseType[] = [
@@ -169,6 +170,16 @@ export const InstructionsSection: React.FC<InstructionsSectionProps> = ({
                         </Avatar>
                         DBML
                     </ToggleGroupItem>
+                    <ToggleGroupItem
+                        value="prisma"
+                        variant="outline"
+                        className="h-6 gap-1 p-0 px-2 shadow-none data-[state=on]:bg-slate-200 dark:data-[state=on]:bg-slate-700"
+                    >
+                        <Avatar className="size-4 rounded-none">
+                            <FileCode size={16} />
+                        </Avatar>
+                        Prisma
+                    </ToggleGroupItem>
                 </ToggleGroup>
             </div>
 
@@ -183,6 +194,11 @@ export const InstructionsSection: React.FC<InstructionsSectionProps> = ({
                     />
                 ) : importMethod === 'ddl' ? (
                     <DDLInstructions
+                        databaseType={databaseType}
+                        databaseEdition={databaseEdition}
+                    />
+                ) : importMethod === 'prisma' ? (
+                    <PrismaInstructions
                         databaseType={databaseType}
                         databaseEdition={databaseEdition}
                     />

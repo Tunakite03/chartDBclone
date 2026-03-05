@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@ai-sdk/openai": "^0.0.51",
+        "@dagrejs/dagre": "^2.0.4",
         "@dbml/core": "^3.13.9",
         "@dnd-kit/sortable": "^8.0.0",
         "@monaco-editor/react": "^4.6.0",
@@ -84,6 +85,7 @@
         "@testing-library/jest-dom": "^6.6.3",
         "@testing-library/react": "^16.3.0",
         "@testing-library/user-event": "^14.6.1",
+        "@types/dagre": "^0.7.54",
         "@types/node": "^22.1.0",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",

@@ -8,6 +8,11 @@ import {
     Undo,
     Scan,
     LayoutGrid,
+    ChevronDown,
+    GitBranchPlus,
+    GitFork,
+    Waypoints,
+    Circle,
 } from 'lucide-react';
 import { Separator } from '@/components/separator/separator';
 import { ToolbarButton } from './toolbar-button';
@@ -26,6 +31,13 @@ import { useCanvas } from '@/hooks/use-canvas';
 import { cn } from '@/lib/utils';
 import { useDiagramFilter } from '@/context/diagram-filter-context/use-diagram-filter';
 import { useAlert } from '@/context/alert-context/alert-context';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/dropdown-menu/dropdown-menu';
+import { LAYOUT_TYPES, type LayoutType } from '@/lib/layout-engine';
 
 const convertToPercentage = (value: number) => `${Math.round(value * 100)}%`;
 
@@ -38,7 +50,8 @@ export const Toolbar: React.FC<ToolbarProps> = ({ readonly }) => {
     const { redo, undo, hasRedo, hasUndo } = useHistory();
     const { getZoom, zoomIn, zoomOut, fitView } = useReactFlow();
     const [zoom, setZoom] = useState<string>(convertToPercentage(getZoom()));
-    const { setShowFilter, reorderTables } = useCanvas();
+    const { setShowFilter, reorderTables, reorderTablesWithLayout } =
+        useCanvas();
     const { hasActiveFilter } = useDiagramFilter();
     const { showAlert } = useAlert();
 
@@ -86,6 +99,19 @@ export const Toolbar: React.FC<ToolbarProps> = ({ readonly }) => {
             onAction: reorderTables,
         });
     }, [t, showAlert, reorderTables]);
+
+    const handleLayoutSelect = useCallback(
+        (layoutType: LayoutType) => {
+            showAlert({
+                title: t('reorder_diagram_alert.title'),
+                description: t('reorder_diagram_alert.description'),
+                actionLabel: t('reorder_diagram_alert.reorder'),
+                closeLabel: t('reorder_diagram_alert.cancel'),
+                onAction: () => reorderTablesWithLayout(layoutType),
+            });
+        },
+        [t, showAlert, reorderTablesWithLayout]
+    );
 
     return (
         <div className="px-1">
@@ -170,20 +196,82 @@ export const Toolbar: React.FC<ToolbarProps> = ({ readonly }) => {
                     <Separator orientation="vertical" />
                     {!readonly ? (
                         <>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <span>
-                                        <ToolbarButton
-                                            onClick={showReorderConfirmation}
-                                        >
-                                            <LayoutGrid />
-                                        </ToolbarButton>
-                                    </span>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    {t('toolbar.reorder_diagram')}
-                                </TooltipContent>
-                            </Tooltip>
+                            <DropdownMenu>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                className="flex h-auto items-center gap-0.5 p-2 hover:bg-primary-foreground"
+                                            >
+                                                <LayoutGrid className="size-4" />
+                                                <ChevronDown className="size-3" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        {t('toolbar.reorder_diagram')}
+                                    </TooltipContent>
+                                </Tooltip>
+                                <DropdownMenuContent align="start">
+                                    <DropdownMenuItem
+                                        onClick={showReorderConfirmation}
+                                    >
+                                        <LayoutGrid className="mr-2 size-4" />
+                                        {t('toolbar.layout_auto')}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={() =>
+                                            handleLayoutSelect(
+                                                LAYOUT_TYPES.GRID
+                                            )
+                                        }
+                                    >
+                                        <LayoutGrid className="mr-2 size-4" />
+                                        {t('toolbar.layout_grid')}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={() =>
+                                            handleLayoutSelect(
+                                                LAYOUT_TYPES.TREE_VERTICAL
+                                            )
+                                        }
+                                    >
+                                        <GitBranchPlus className="mr-2 size-4" />
+                                        {t('toolbar.layout_tree_vertical')}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={() =>
+                                            handleLayoutSelect(
+                                                LAYOUT_TYPES.TREE_HORIZONTAL
+                                            )
+                                        }
+                                    >
+                                        <GitFork className="mr-2 size-4" />
+                                        {t('toolbar.layout_tree_horizontal')}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={() =>
+                                            handleLayoutSelect(
+                                                LAYOUT_TYPES.FORCE
+                                            )
+                                        }
+                                    >
+                                        <Waypoints className="mr-2 size-4" />
+                                        {t('toolbar.layout_force')}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={() =>
+                                            handleLayoutSelect(
+                                                LAYOUT_TYPES.CIRCULAR
+                                            )
+                                        }
+                                    >
+                                        <Circle className="mr-2 size-4" />
+                                        {t('toolbar.layout_circular')}
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                             <Separator orientation="vertical" />
                         </>
                     ) : null}

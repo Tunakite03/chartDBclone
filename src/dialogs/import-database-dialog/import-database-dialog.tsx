@@ -16,6 +16,7 @@ import type { BaseDialogProps } from '../common/base-dialog-props';
 import { useAlert } from '@/context/alert-context/alert-context';
 import { sqlImportToDiagram } from '@/lib/data/sql-import';
 import { importDBMLToDiagram } from '@/lib/dbml/dbml-import/dbml-import';
+import { importPrismaToDiagram } from '@/lib/prisma/prisma-import/prisma-import';
 import type { ImportMethod } from '@/lib/import-method/import-method';
 
 export interface ImportDatabaseDialogProps extends BaseDialogProps {
@@ -69,6 +70,10 @@ export const ImportDatabaseDialog: React.FC<ImportDatabaseDialogProps> = ({
             });
         } else if (importMethod === 'dbml') {
             diagram = await importDBMLToDiagram(scriptResult, {
+                databaseType,
+            });
+        } else if (importMethod === 'prisma') {
+            diagram = await importPrismaToDiagram(scriptResult, {
                 databaseType,
             });
         } else {

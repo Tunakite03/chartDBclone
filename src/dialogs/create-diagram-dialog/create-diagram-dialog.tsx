@@ -26,6 +26,10 @@ import {
     defaultDBMLDiagramName,
     importDBMLToDiagram,
 } from '@/lib/dbml/dbml-import/dbml-import';
+import {
+    defaultPrismaDiagramName,
+    importPrismaToDiagram,
+} from '@/lib/prisma/prisma-import/prisma-import';
 import type { ImportMethod } from '@/lib/import-method/import-method';
 
 export interface CreateDiagramDialogProps extends BaseDialogProps {}
@@ -100,6 +104,13 @@ export const CreateDiagramDialog: React.FC<CreateDiagramDialogProps> = ({
                 });
                 // Update the diagram name if it's the default
                 if (diagram.name === defaultDBMLDiagramName) {
+                    diagram.name = `Diagram ${diagramNumber}`;
+                }
+            } else if (importMethod === 'prisma') {
+                diagram = await importPrismaToDiagram(scriptResult, {
+                    databaseType,
+                });
+                if (diagram.name === defaultPrismaDiagramName) {
                     diagram.name = `Diagram ${diagramNumber}`;
                 }
             } else {
@@ -179,7 +190,11 @@ export const CreateDiagramDialog: React.FC<CreateDiagramDialogProps> = ({
         try {
             setIsParsingMetadata(true);
 
-            if (importMethod === 'ddl' || importMethod === 'dbml') {
+            if (
+                importMethod === 'ddl' ||
+                importMethod === 'dbml' ||
+                importMethod === 'prisma'
+            ) {
                 await importNewDiagram();
             } else {
                 // Parse metadata asynchronously to avoid blocking the UI

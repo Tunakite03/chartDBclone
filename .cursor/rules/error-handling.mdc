@@ -1,0 +1,14 @@
+---
+description: Error handling patterns
+globs: "**/*.{ts,tsx,js,jsx,py}"
+alwaysApply: true
+---
+# Error Handling
+
+- Never swallow errors silently. Handle or re-throw with context.
+- Use typed errors with error codes, not raw strings.
+- Validate inputs at system boundaries.
+- Provide actionable error messages.
+- Handle null/undefined/empty states explicitly.
+- Try/catch only at boundaries (API handlers, event listeners).
+- Custom error classes with `code` property for programmatic handling.

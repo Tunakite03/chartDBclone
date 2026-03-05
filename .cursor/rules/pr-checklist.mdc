@@ -1,0 +1,19 @@
+---
+description: Pull request quality checklist
+globs:
+alwaysApply: false
+---
+# PR Checklist
+
+## Before Submitting
+- [ ] Code compiles with zero warnings.
+- [ ] All existing tests pass.
+- [ ] New code has tests (happy path + edge cases + errors).
+- [ ] Minimal diff — only changes needed for the task.
+- [ ] No debug logs, console.log, commented-out code.
+- [ ] No hardcoded secrets, tokens, or credentials.
+- [ ] Typed errors (no raw string throws).
+- [ ] Inputs validated at boundaries.
+- [ ] Accessible: labels, alt text, keyboard nav where applicable.
+- [ ] Breaking changes documented.
+- [ ] PR description explains WHY, not just WHAT.

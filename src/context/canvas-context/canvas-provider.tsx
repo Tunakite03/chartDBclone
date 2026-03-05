@@ -13,6 +13,7 @@ import { useReactFlow } from '@xyflow/react';
 import { findOverlappingTables } from '@/pages/editor-page/canvas/canvas-utils';
 import type { Graph } from '@/lib/graph';
 import { createGraph } from '@/lib/graph';
+import { applyLayout, type LayoutType } from '@/lib/layout-engine';
 import { useDiagramFilter } from '../diagram-filter-context/use-diagram-filter';
 import { filterTable } from '@/lib/domain/diagram-filter/filter';
 import { defaultSchemas } from '@/lib/data/default-schemas';
@@ -136,6 +137,80 @@ export const CanvasProvider = ({ children }: CanvasProviderProps) => {
         ]
     );
 
+    const reorderTablesWithLayout = useCallback(
+        (
+            layoutType: LayoutType,
+            options: { updateHistory?: boolean } = {
+                updateHistory: true,
+            }
+        ) => {
+            const filteredTables = tables.filter((table) =>
+                filterTable({
+                    table: {
+                        id: table.id,
+                        schema: table.schema,
+                    },
+                    filter,
+                    options: {
+                        defaultSchema: defaultSchemas[databaseType],
+                    },
+                })
+            );
+
+            const positions = applyLayout(
+                { tables: filteredTables, relationships },
+                layoutType
+            );
+
+            const positionMap = new Map(
+                positions.map((p) => [p.id, { x: p.x, y: p.y }])
+            );
+
+            const updatedTables = filteredTables.map((table) => {
+                const pos = positionMap.get(table.id);
+                return pos ? { ...table, x: pos.x, y: pos.y } : table;
+            });
+
+            const updatedOverlapGraph = findOverlappingTables({
+                tables: updatedTables,
+            });
+
+            updateTablesState(
+                (currentTables) =>
+                    currentTables.map((table) => {
+                        const pos = positionMap.get(table.id);
+                        return {
+                            id: table.id,
+                            x: pos?.x ?? table.x,
+                            y: pos?.y ?? table.y,
+                        };
+                    }),
+                {
+                    updateHistory: options.updateHistory ?? true,
+                    forceOverride: false,
+                }
+            );
+
+            setOverlapGraph(updatedOverlapGraph);
+
+            setTimeout(() => {
+                fitView({
+                    duration: 500,
+                    padding: 0.2,
+                    maxZoom: 0.8,
+                });
+            }, 500);
+        },
+        [
+            filter,
+            relationships,
+            tables,
+            updateTablesState,
+            fitView,
+            databaseType,
+        ]
+    );
+
     const startFloatingEdgeCreation: CanvasContext['startFloatingEdgeCreation'] =
         useCallback(({ sourceNodeId }) => {
             setShowFilter(false);
@@ -200,6 +275,7 @@ export const CanvasProvider = ({ children }: CanvasProviderProps) => {
         <canvasContext.Provider
             value={{
                 reorderTables,
+                reorderTablesWithLayout,
                 fitView,
                 setOverlapGraph,
                 overlapGraph,

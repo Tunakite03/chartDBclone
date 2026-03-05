@@ -5,6 +5,23 @@ export const detectImportMethod = (content: string): ImportMethod | null => {
 
     const upperContent = content.toUpperCase();
 
+    // Check for Prisma schema patterns first
+    const prismaPatterns = [
+        /^model\s+\w+\s*{/m,
+        /^datasource\s+\w+\s*{/m,
+        /^generator\s+\w+\s*{/m,
+        /@@id\(/,
+        /@@unique\(/,
+        /@@index\(/,
+        /@default\(autoincrement\(\)\)/,
+        /@relation\(/,
+    ];
+
+    const hasPrismaPatterns = prismaPatterns.some((pattern) =>
+        pattern.test(content)
+    );
+    if (hasPrismaPatterns) return 'prisma';
+
     // Check for DBML patterns first (case sensitive)
     const dbmlPatterns = [
         /^Table\s+\w+\s*{/m,
